@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 2.6)
+project(ZETPROGRAM)
+file(GLOB CPPS "*.cpp")
+set ( CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON )
+add_library(${PROJECT_NAME} SHARED ${CPPS})
+target_include_directories(${PROJECT_NAME} PUBLIC bluetooth)
+target_link_libraries(${PROJECT_NAME} bluetooth)
