@@ -1,15 +1,22 @@
 #pragma once
 #include "bobj.h"
-#include "bl.h"
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <sys/types.h>
-#include <bluetooth/rfcomm.h>
-class BlServer
+#include"core.h"
+DLLAPI class BlServer
 {
 public:
     BlServer()
     {
+#ifndef __linux__ //windows
+        WSADATA wsData;
+        WORD ver = MAKEWORD(2, 2);
+
+        int wsOk = WSAStartup(ver, &wsData);
+        if (wsOk != 0)
+        {
+            std::cout << "ERROR\n" << "\n";
+            return;
+        }
+#endif
     }
 
     ~BlServer()
@@ -21,12 +28,21 @@ public:
     void ServerInit(uint8_t channel)
     {
         servsock = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
-        bdaddr_t bdaddr_any = {0, 0, 0, 0, 0, 0};
+       
         // bind socket to port 1 of the first available
         // local bluetooth adapter
+#ifndef __linux__ //windows
+        addr.addressFamily = AF_BTH;
+        addr.serviceClassId = RFCOMM_PROTOCOL_UUID;
+        addr.port = BT_PORT_ANY;
+#else//linux
+        bdaddr_t bdaddr_any = { 0, 0, 0, 0, 0, 0 };
         addr.rc_family = AF_BLUETOOTH;
         addr.rc_bdaddr = bdaddr_any;
         addr.rc_channel = channel;
+#endif // __linux__
+       
+        
     }
     
    
@@ -40,7 +56,7 @@ public:
         // accept one connection
 
        
-        int client=accept(servsock, (struct sockaddr *)&addr, &opt);
+        SOCKET client=accept(servsock, (struct sockaddr *)&addr, &opt);
          std::cout << "CONNECT CLIENT\n";
          send(client,"TEST",4,NULL);
         while (true)
@@ -64,7 +80,7 @@ public:
     }
 
 private:
-    sockaddr_rc addr = {0};
+    sockaddre addr = {0};
     socklen_t opt = sizeof(addr);
-    int servsock;
+    SOCKET servsock;
 };
