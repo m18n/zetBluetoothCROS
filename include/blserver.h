@@ -48,6 +48,7 @@ public:
    
     void ServerStart()
     {
+        std::cout << "SERVER STARTT\n";
         bind(servsock, (struct sockaddr *)&addr, sizeof(addr));
 
         // put socket into listening mode
