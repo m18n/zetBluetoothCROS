@@ -1,9 +1,9 @@
 #include"include/core.h"
+
+#ifndef __linux__ //windows
 void close(SOCKET s) {
 	closesocket(s);
-
 }
-#ifndef __linux__ //windows
 int ba2str(BTH_ADDR* btaddr, const char* straddr)
 {
     int i;

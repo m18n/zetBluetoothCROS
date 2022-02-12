@@ -17,10 +17,13 @@
 DEFINE_GUID(g_guidServiceClass, 0xb62c4e8d, 0x62cc, 0x404b, 0xbb, 0xbf, 0xbf, 0x3e, 0x3b, 0xbb, 0x13, 0x74);
 
 #else//linux
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <bluetooth/bluetooth.h>
 #include <bluetooth/rfcomm.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <sys/types.h>
+#include <unistd.h>
 #endif // __linux__
 //typedef
 #ifndef __linux__ //windows
@@ -31,7 +34,7 @@ typedef struct _SOCKADDR_BTH sockaddre;
 typedef BTH_ADDR bdaddr_t;
 #else//linux
 typedef int SOCKET;
-typedef sockaddr_rc sockaddr;
+typedef sockaddr_rc sockaddre;
 #endif // __linux__
 
 
