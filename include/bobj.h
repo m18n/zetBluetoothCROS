@@ -1,12 +1,11 @@
 #pragma once
 #include <iostream>
-#include <bluetooth/bluetooth.h>
-#include <bluetooth/hci.h>
-#include <bluetooth/hci_lib.h>
+
+#include"core.h"
 class Bobj
 {
 public:
-    Bobj();
+    Bobj(); 
     Bobj(bdaddr_t mac, std::string name);
 
 public:
