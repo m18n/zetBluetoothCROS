@@ -85,3 +85,7 @@ private:
     socklen_t opt = sizeof(addr);
     SOCKET servsock;
 };
+extern "C" {
+    DLLAPI void* CreateBLServer();
+    DLLAPI void StartServer(void* blserver,uint8_t channel);
+}

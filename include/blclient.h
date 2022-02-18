@@ -1,6 +1,7 @@
 #pragma once
 #include"bobj.h"
 #include"core.h"
+
 class BlClient
 {
 public:
@@ -13,7 +14,7 @@ public:
         int wsOk = WSAStartup(ver, &wsData);
         if (wsOk != 0)
         {
-            cerr << "Can't initialize winsok" << endl;
+            std::cout << "Can't initialize winsok" << std::endl;
             return;
         }
 #endif
@@ -58,3 +59,6 @@ private:
     sockaddre addr= { 0 };
     int clsock;
 };
+extern "C" {
+    DLLAPI int TestFunction();
+}
