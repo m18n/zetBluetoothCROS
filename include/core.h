@@ -8,7 +8,32 @@
 #else//linux
 #define DLLAPI
 #endif // __linux__
+
+
 #include"stdio.h"
+#include<iostream>
+#include<vector>
+#include<fstream>
+namespace core {
+	extern std::fstream clog;
+	extern std::vector<char> vlog;
+	extern int last_vlog;
+	int GetRealSize(std::vector<char> v);
+}
+namespace cx {
+	struct loginf
+	{
+		void* log=NULL;
+		int end=0;
+	};
+	extern loginf* linf;
+}
+extern "C" {
+	DLLAPI void CreateLibrary();
+	DLLAPI void DestroyLibrary();
+	DLLAPI void* GetLOG();
+}
+
 #ifndef __linux__ //windows
 #include <ws2tcpip.h>
 #include <WinSock2.h>
