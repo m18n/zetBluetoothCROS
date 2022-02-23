@@ -66,5 +66,5 @@ typedef sockaddr_rc sockaddre;
 #ifndef __linux__ //windows
 void close(SOCKET s);
 int ba2str(BTH_ADDR* btaddr, const char* straddr);
-
+int str2ba(char* str_bt_addr, BTH_ADDR* bt_addr);//for converting string to bluetooth address;
 #endif // __linux__

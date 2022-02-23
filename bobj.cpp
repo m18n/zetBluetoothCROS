@@ -7,7 +7,10 @@ void Bobj::Inithiliz(bdaddr_t mac, std::string name)
 void Bobj::SetMac(bdaddr_t mac)
 {
     this->mac = mac;
-    ba2str(&this->mac, &strmac[0]);
+}
+void Bobj::SetStrMac(std::string mac) {
+    str2ba(&mac[0], &this->mac);
+    this->strmac=mac;
 }
 void Bobj::SetName(std::string name)
 {

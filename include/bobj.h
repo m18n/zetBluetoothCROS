@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-
+#include<string>
 #include"core.h"
 class Bobj
 {
@@ -12,6 +12,7 @@ public:
     void Inithiliz(bdaddr_t mac, std::string name);
     void SetMac(bdaddr_t mac);
     void SetName(std::string name);
+    void SetStrMac(std::string mac);
     std::string GetName();
     bdaddr_t *GetMac();
     std::string GetStrMac();
