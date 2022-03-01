@@ -1,6 +1,7 @@
 #pragma once
 #include "bobj.h"
 #include"core.h"
+#include<thread>
  class BlServer
 {
 public:
@@ -23,13 +24,14 @@ public:
     {
         close(servsock);
     }
-
+private:
+    void GetPacket();
 public:
     void ServerInit(uint8_t channel);
     
    
     void ServerStart();
-
+   
 private:
     sockaddre addr = {0};
     socklen_t opt = sizeof(addr);

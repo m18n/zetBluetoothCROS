@@ -30,6 +30,33 @@ void BlServer::ServerInit(uint8_t channel)
 
 
 }
+void BlServer::GetPacket() {
+
+    SOCKET client = accept(servsock, (struct sockaddr*)&addr, &opt);
+    core::clog << "CONNECT CLIENT\n";
+    std::cout << "CONNECT CLIENT\n";
+    send(client, "TEST", 4, NULL);
+    while (true)
+    {
+
+        char hay[1024];
+        int res = recv(client, hay, 1024, NULL);
+        if (res < 0)
+        {
+            core::clog << "DISSCONNECT\n";
+            std::cout << "DISSCONNECT\n";
+            close(client);
+            client = accept(servsock, (struct sockaddr*)&addr, &opt);
+            core::clog << "CONNECT CLIENT\n";
+            std::cout << "CONNECT CLIENT\n";
+            send(client, "TEST", 4, NULL);
+            continue;
+        }
+        int test = (int)hay[0];
+        std::cout << "HAy: " << test << "\n";
+
+    }
+}
 void BlServer::ServerStart()
 {
     core::clog << "SERVER START\n";
@@ -42,25 +69,8 @@ void BlServer::ServerStart()
     // accept one connection
 
 
-    SOCKET client = accept(servsock, (struct sockaddr*)&addr, &opt);
-    std::cout << "CONNECT CLIENT\n";
-    send(client, "TEST", 4, NULL);
-    while (true)
-    {
-
-        char hay[1024];
-        int res = recv(client, hay, 1024, NULL);
-        if (res < 0)
-        {
-            std::cout << "DISSCONNECT\n";
-            close(client);
-            client = accept(servsock, (struct sockaddr*)&addr, &opt);
-            std::cout << "CONNECT CLIENT\n";
-            send(client, "TEST", 4, NULL);
-            continue;
-        }
-        int test = (int)hay[0];
-        std::cout << "HAy: " << test << "\n";
-
-    }
+   
+    std::thread th(&BlServer::GetPacket,this);
+    th.detach();
+    
 }
