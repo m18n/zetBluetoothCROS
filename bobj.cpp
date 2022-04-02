@@ -4,6 +4,11 @@ void Bobj::Inithiliz(bdaddr_t mac, std::string name)
     SetMac(mac);
     this->name = name;
 }
+void Bobj::Inithiliz(std::string mac, std::string name)
+{
+    SetStrMac(mac);
+    this->name = name;
+}
 void Bobj::SetMac(bdaddr_t mac)
 {
     this->mac = mac;
@@ -35,5 +40,8 @@ Bobj::Bobj()
 }
 Bobj::Bobj(bdaddr_t mac, std::string name)
 {
+    Inithiliz(mac, name);
+}
+Bobj::Bobj(std::string mac, std::string name) {
     Inithiliz(mac, name);
 }
