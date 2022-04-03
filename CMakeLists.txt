@@ -21,7 +21,6 @@ if (MSVC)
   set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/ENTRY:mainCRTStartup")
 endif()
 set(dirbuild ${CMAKE_CURRENT_BINARY_DIR})
-file(COPY ${dirbuild}/assets DESTINATION ${PROJECT_SOURCE_DIR} )
 # Copy all binaries to target directory
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/bin" $<TARGET_FILE_DIR:${PROJECT_NAME}>)

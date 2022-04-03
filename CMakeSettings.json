@@ -5,7 +5,7 @@
       "generator": "Ninja",
       "configurationType": "Debug",
       "inheritEnvironments": [ "msvc_x64_x64" ],
-      "buildRoot": "C:/Users/admin/Documents/Project/zetBluetoothCROS/build/x64/Debug",
+      "buildRoot": "${workspaceRoot}/build/x64/Debug",
       "installRoot": "${projectDir}\\out\\install\\${name}",
       "cmakeCommandArgs": "",
       "buildCommandArgs": "",
