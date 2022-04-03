@@ -1,8 +1,5 @@
 #include"include/blserver.h"
-void* CreateBLServer() {
-    core::clog << "TeST\n";
-	return  (void*) new BlServer();
-}
+
 void StartServer(void* blserver,uint8_t channel) {
 	BlServer* bl = (BlServer*)blserver;
 	bl->ServerInit(channel);
@@ -10,9 +7,7 @@ void StartServer(void* blserver,uint8_t channel) {
 }
 void BlServer::ServerInit(uint8_t channel)
 {
-    std::cout <<"VLOG: " << &core::vlog[0] << "\n";
-    core::clog << "SERVER INIT\n";
-    std::cout << "VLOG: " << &core::vlog[0] << "\n";
+    std::cout << "Server Init\n";
     servsock = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
    
     // bind socket to port 1 of the first available
@@ -33,7 +28,6 @@ void BlServer::ServerInit(uint8_t channel)
 void BlServer::GetPacket() {
 
     SOCKET client = accept(servsock, (struct sockaddr*)&addr, &opt);
-    core::clog << "CONNECT CLIENT\n";
     std::cout << "CONNECT CLIENT\n";
     send(client, "TEST", 4, NULL);
     while (true)
@@ -43,11 +37,9 @@ void BlServer::GetPacket() {
         int res = recv(client, hay, 1024, NULL);
         if (res < 0)
         {
-            core::clog << "DISSCONNECT\n";
             std::cout << "DISSCONNECT\n";
             close(client);
             client = accept(servsock, (struct sockaddr*)&addr, &opt);
-            core::clog << "CONNECT CLIENT\n";
             std::cout << "CONNECT CLIENT\n";
             send(client, "TEST", 4, NULL);
             continue;
@@ -59,7 +51,6 @@ void BlServer::GetPacket() {
 }
 void BlServer::ServerStart()
 {
-    core::clog << "SERVER START\n";
     std::cout << "SERVER STARTT\n";
     bind(servsock, (struct sockaddr*)&addr, sizeof(addr));
 

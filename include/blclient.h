@@ -31,7 +31,7 @@ public:
 public:
     void Connect(Bobj b,int port)
     {
-        core::clog << "MAC: " << b.GetStrMac() << "\n";
+        std::cout<<"MAC: " << b.GetStrMac() << "\n";
         clsock = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
 #ifndef __linux__ //windows
         addr.addressFamily = AF_BTH;
@@ -46,17 +46,16 @@ public:
 #endif // __linux__
         // set the connection parameters (who to connect to)
         
-        core::clog << "START CONNECT\n";
+        std::cout << "START CONNECT\n";
         int status = connect(clsock, (struct sockaddr *)&addr, sizeof(addr));
 
         // send a message
         if (status < 0){
-            core::clog << "ERROR CONNECT\n";
+            std::cout << "ERROR CONNECT\n";
             perror("ERROR CONNECT");
             return;
         }
-        core::clog << "CONNECT SUCCSESFUL\n";
-        std::cout << "CONNECT\n";
+        std::cout << "CONNECT SUCCSESFUL\n";
         
     }
 
@@ -64,7 +63,3 @@ private:
     sockaddre addr= { 0 };
     int clsock;
 };
-extern "C" {
-    DLLAPI void* CreateBLClient();
-    DLLAPI void Connect(void* blclient,char* mac,int port);
-}

@@ -1,0 +1,17 @@
+@font-face { 
+    font-family: 'Roboto';
+    src: url('../font/Roboto-Light.ttf') format('TrueType');
+}
+body{
+    font-family: 'Roboto';
+}
+.button{
+    
+    background-color: grey;
+    cursor: pointer;
+    height: 25px;
+    border-radius: 2px;
+    color:white;
+    outline: none;
+    border:none;
+}

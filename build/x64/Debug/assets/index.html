@@ -5,8 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>HELLO L MISHA df</h1>
+    <h1>Client</h1>
+    <input type="text" placeholder="MAC ADDRESS" id="mac">
+    <input type="text" placeholder="PORT" id="port">
+    <button class="button" id="conn" onclick="Connect();">CONNECT</button><br><br>
+    <h1>SERVER</h1>
+    <input type="text" placeholder="PORT SERVER" id="portserv">
+    <button class="button" id="serverstart" onclick="ServStart();">SERVER START</button>
+    <script src="js/main.js"></script>
 </body>
 </html>
