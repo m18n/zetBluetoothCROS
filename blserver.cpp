@@ -9,12 +9,18 @@ void BlServer::ServerInit(uint8_t channel)
 {
     std::cout << "Server Init\n";
     servsock = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
-   
+    if (servsock == INVALID_SOCKET)
+    {
+        printf("Failed to get bluetooth socket! %s\n");
+        exit(1);
+    }
     // bind socket to port 1 of the first available
     // local bluetooth adapter
 #ifndef __linux__ //windows
     addr.addressFamily = AF_BTH;
-    addr.serviceClassId = RFCOMM_PROTOCOL_UUID;
+  
+    addr.btAddr = 0;
+    addr.serviceClassId = GUID_NULL;
     addr.port = BT_PORT_ANY;
 #else//linux
     bdaddr_t bdaddr_any = { 0, 0, 0, 0, 0, 0 };
@@ -29,35 +35,80 @@ void BlServer::GetPacket() {
 
     SOCKET client = accept(servsock, (struct sockaddr*)&addr, &opt);
     std::cout << "CONNECT CLIENT\n";
-    send(client, "TEST", 4, NULL);
+    for (int i = 0; i < 20; i++) {
+        senD(client,"TEST\n",5);
+        
+    }
     while (true)
     {
 
         char hay[1024];
-        int res = recv(client, hay, 1024, NULL);
+       
+        int res = recV(client, hay, 1024);
         if (res < 0)
         {
             std::cout << "DISSCONNECT\n";
             close(client);
             client = accept(servsock, (struct sockaddr*)&addr, &opt);
             std::cout << "CONNECT CLIENT\n";
-            send(client, "TEST", 4, NULL);
+            senD(client, "TEST\n", 5);
             continue;
         }
-        int test = (int)hay[0];
-        std::cout << "HAy: " << test << "\n";
+        std::cout << "RECV: " << hay << "\n";
 
     }
 }
 void BlServer::ServerStart()
 {
     std::cout << "SERVER STARTT\n";
-    bind(servsock, (struct sockaddr*)&addr, sizeof(addr));
+    if (0 != bind(servsock, (struct sockaddr*)&addr, sizeof(addr)))
+    {
+        printf("%s\n", GetLastError());
+    }
+    else
+    {
+        printf("\nBinding Successful....\n");
+        int length = sizeof(SOCKADDR_BTH);
+        getsockname(servsock, (sockaddr*)&addr, &length);
+        wprintf(L"Local Bluetooth device is %04x%08x \nServer channel = %d\n",
+            GET_NAP(addr.btAddr), GET_SAP(addr.btAddr), addr.port);
+    }
+   
+    if (0 != listen(servsock, 1))
+    {
+        std::cout << "ERROR LISTEN\n";
+    }
 
-    // put socket into listening mode
-    listen(servsock, 1);
+    WSAQUERYSET service;
+    memset(&service, 0, sizeof(service));
+    service.dwSize = sizeof(service);
+    service.lpszServiceInstanceName = _T("Accelerometer Data...");
+    service.lpszComment = _T("Pushing data to PC");
 
-    // accept one connection
+    GUID serviceID = OBEXFileTransferServiceClass_UUID;
+
+    service.lpServiceClassId = &serviceID;
+    service.dwNumberOfCsAddrs = 1;
+    service.dwNameSpace = NS_BTH;
+
+    CSADDR_INFO csAddr;
+    memset(&csAddr, 0, sizeof(csAddr));
+    csAddr.LocalAddr.iSockaddrLength = sizeof(SOCKADDR_BTH);
+    csAddr.LocalAddr.lpSockaddr = (sockaddr*)&addr;
+    csAddr.iSocketType = SOCK_STREAM;
+    csAddr.iProtocol = BTHPROTO_RFCOMM;
+    service.lpcsaBuffer = &csAddr;
+
+    if (0 != WSASetService(&service, RNRSERVICE_REGISTER, 0))
+    {
+        printf("Service registration failed....");
+        
+    }
+    else
+    {
+        printf("\nService registration Successful....\n");
+    }
+    printf("\nBefore accept.........\n");
 
 
    

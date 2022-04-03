@@ -14,6 +14,7 @@
 #include<iostream>
 #include<vector>
 #include<fstream>
+#include<string>
 namespace core {
 	int GetRealSize(std::vector<char> v);
 }
@@ -22,6 +23,10 @@ namespace core {
 #include <ws2tcpip.h>
 #include <WinSock2.h>
 #include <ws2bth.h>
+#include<BluetoothAPIs.h>
+#include<bthsdpdef.h>
+#include<Ws2bth.h>
+#include<tchar.h>
 #pragma comment(lib, "ws2_32.lib")
 DEFINE_GUID(g_guidServiceClass, 0xb62c4e8d, 0x62cc, 0x404b, 0xbb, 0xbf, 0xbf, 0x3e, 0x3b, 0xbb, 0x13, 0x74);
 
@@ -52,3 +57,5 @@ void close(SOCKET s);
 int ba2str(BTH_ADDR* btaddr, const char* straddr);
 int str2ba(char* str_bt_addr, BTH_ADDR* bt_addr);//for converting string to bluetooth address;
 #endif // __linux__
+int recV(int sock, char* buf, int size);
+int senD(int sock, const char* buf, int size);
