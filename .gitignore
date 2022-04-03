@@ -1,5 +1,6 @@
 build/x64/Debug/*
 !build/x64/Debug/X64DEBUG
+!build/x64/Debug/assets
 out
 .vs
 .vscode
