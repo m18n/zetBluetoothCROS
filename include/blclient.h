@@ -58,7 +58,23 @@ public:
         std::cout << "CONNECT SUCCSESFUL\n";
         
     }
+    void GetPacket() {
+        
+        while (true)
+        {
 
+            char hay[1024];
+            int res = recv(clsock, hay, 1024, NULL);
+            if (res < 0)
+            {
+                std::cout << "DISSCONNECT\n";
+                close(clsock);
+                break;
+            }
+            std::cout << "READ PACKET: " << hay << "\n";
+
+        }
+    }
 private:
     sockaddre addr= { 0 };
     int clsock;
