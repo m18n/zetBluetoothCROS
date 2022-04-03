@@ -60,6 +60,6 @@ int senD(int sock, const char* buf, int size) {
     memcpy(&vec[indexs + 1], &buf[0], size);
     int allsize = indexs + size + 2;
     vec[allsize - 1] = '\0';
-    return send(sock, &vec[0], allsize, NULL);
+    return send(sock, &vec[0], allsize-1, NULL);
 }
 #endif // __linux__

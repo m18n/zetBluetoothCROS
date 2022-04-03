@@ -15,6 +15,7 @@
 #include<vector>
 #include<fstream>
 #include<string>
+#include<string.h>
 namespace core {
 	int GetRealSize(std::vector<char> v);
 }

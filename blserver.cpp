@@ -36,7 +36,7 @@ void BlServer::GetPacket() {
     SOCKET client = accept(servsock, (struct sockaddr*)&addr, &opt);
     std::cout << "CONNECT CLIENT\n";
     for (int i = 0; i < 20; i++) {
-        senD(client,"TEST\n",5);
+        senD(client,"TEST\n",6);
         
     }
     while (true)
@@ -51,7 +51,7 @@ void BlServer::GetPacket() {
             close(client);
             client = accept(servsock, (struct sockaddr*)&addr, &opt);
             std::cout << "CONNECT CLIENT\n";
-            senD(client, "TEST\n", 5);
+            senD(client, "TEST\n", 6);
             continue;
         }
         std::cout << "RECV: " << hay << "\n";
