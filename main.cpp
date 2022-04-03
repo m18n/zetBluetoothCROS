@@ -53,7 +53,7 @@ public:
         // Get the underlying JSContextRef for use with the
         // JavaScriptCore C API.
         ctx = context.get();
-        RegistrFunctionJs("ConnectJs", ConnectJs);
+        RegistrFunctionJs("ConnectCpp", ConnectJs);
         RegistrFunctionJs("ServerStartCpp", ServerStartJs);
         // Create a JavaScript String containing the name of our callback.
     }
