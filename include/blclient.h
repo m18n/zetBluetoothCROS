@@ -64,7 +64,7 @@ public:
         {
 
             char hay[1024];
-            int res = recv(clsock, hay, 1024, NULL);
+            int res = recV(clsock, hay, 1024);
             if (res < 0)
             {
                 std::cout << "DISSCONNECT\n";
