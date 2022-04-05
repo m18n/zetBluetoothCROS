@@ -8,15 +8,17 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>Client</h1>
+    <h1 id="clienth">Client</h1>
     <input type="text" placeholder="MAC ADDRESS" id="mac">
     <input type="text" placeholder="PORT" id="port">
-    <button class="button" id="conn" onclick="Connect();">CONNECT</button><br>
+    <button class="button" id="conn" onclick="Connect();">CONNECT</button>
+    <button class="button" id="disconn" onclick="Disconnect();">DISCONNECT</button>
+    <br>
     <input type="text" placeholder="MESSAGE" id="messageclient">
     <button class="button" onclick="ClientSendMessage();">SEND MESSAGE</button>
     <br><br>
 
-    <h1>SERVER</h1>
+    <h1 id="servh">SERVER</h1>
     <button class="button" id="serverstart" onclick="ServStart();">SERVER START</button>
     <button class="button" id="serverstart" onclick="ServStop();">SERVER STOP</button><br><br>
     <input type="text" placeholder="MESSAGE" id="messageserv">

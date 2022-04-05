@@ -11,6 +11,9 @@ using namespace ultralight;
 JSValueRef ConnectJs(JSContextRef ctx, JSObjectRef function,
     JSObjectRef thisObject, size_t argumentCount,
     const JSValueRef arguments[], JSValueRef* exception);
+JSValueRef DisconnectJs(JSContextRef ctx, JSObjectRef function,
+    JSObjectRef thisObject, size_t argumentCount,
+    const JSValueRef arguments[], JSValueRef* exception);
 JSValueRef ServerStartJs(JSContextRef ctx, JSObjectRef function,
     JSObjectRef thisObject, size_t argumentCount,
     const JSValueRef arguments[], JSValueRef* exception);
@@ -23,6 +26,7 @@ JSValueRef ServerSendMessageJs(JSContextRef ctx, JSObjectRef function,
 JSValueRef ClientSendMessageJs(JSContextRef ctx, JSObjectRef function,
     JSObjectRef thisObject, size_t argumentCount,
     const JSValueRef arguments[], JSValueRef* exception);
+
 class MyApp : public WindowListener,
     public ViewListener, public LoadListener {
     RefPtr<App> app_;
@@ -68,6 +72,7 @@ public:
         RegistrFunctionJs("ServerStopCpp", ServerStopJs);
         RegistrFunctionJs("ServSendMessageCpp", ServerSendMessageJs);
         RegistrFunctionJs("ClientSendMessageCpp", ClientSendMessageJs);
+        RegistrFunctionJs("DisconnectCpp", DisconnectJs);
         // Create a JavaScript String containing the name of our callback.
     }
     void RegistrFunctionJs(std::string namefunction, JSObjectCallAsFunctionCallback fun)
@@ -240,6 +245,12 @@ JSValueRef ConnectJs(JSContextRef ctx, JSObjectRef function,
     app.Connect(mac_str, port);
     return JSValueMakeNull(ctx);
     
+}
+JSValueRef DisconnectJs(JSContextRef ctx, JSObjectRef function,
+    JSObjectRef thisObject, size_t argumentCount,
+    const JSValueRef arguments[], JSValueRef* exception) {
+    app.blcl.Disconnect();
+    return JSValueMakeNull(ctx);
 }
 JSValueRef ServerStartJs(JSContextRef ctx, JSObjectRef function,
     JSObjectRef thisObject, size_t argumentCount,

@@ -9,3 +9,10 @@ void Connect(void* blclient,char* mac,int port) {
 void BlClient::sendMessage(std::string mess) {
 	senD(clsock, mess.c_str(), mess.length()+1);
 }
+void BlClient::Disconnect() {
+	if (conn) {
+		std::cout << "DISCONNECT\n";
+		closesocket(clsock);
+		conn = false;
+	}
+}

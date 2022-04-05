@@ -55,6 +55,7 @@ public:
             perror("ERROR CONNECT");
             return;
         }
+        conn = true;
         std::cout << "CONNECT SUCCSESFUL\n";
         std::thread th(&BlClient::GetPacket, this);
         th.detach();
@@ -65,10 +66,17 @@ public:
         {
 
             char hay[1024];
+            if (!conn) {
+                break;
+            }
             int res = recV(clsock, hay, 1024);
+            if (!conn) {
+                break;
+            }
             if (res < 0)
             {
                 std::cout << "DISSCONNECT\n";
+                conn = false;
                 close(clsock);
                 break;
             }
@@ -76,8 +84,10 @@ public:
 
         }
     }
+    void Disconnect();
     void sendMessage(std::string mess);
 private:
     sockaddre addr= { 0 };
     int clsock;
+    bool conn=false;
 };
