@@ -35,34 +35,34 @@ void BlServer::sendMessage(std::string mess) {
     senD(client, mess.c_str(), mess.length() + 1);
 }
 void BlServer::GetPacket() {
+    std::cout << "START GET PAKCET\n";
+    if (client = accept(servsock, (struct sockaddr*)&addr, &opt)) {
 
-    client = accept(servsock, (struct sockaddr*)&addr, &opt);
-    std::cout << "CONNECT CLIENT\n";
+        std::cout << "CONNECT CLIENT\n";
+    }
     while (true)
     {
-        if (serverstart == true) {
-            closesocket(client);
-            serverstart = false;
-            std::cout << "STOP SERVER\n";
+        if (!serverpr) {
+            std::cout << "STOP GET PACKET\n";
             break;
         }
-        senD(client, "START SERVER", 13);
+        sendMessage("YOU CONNECT SERVER");
         char hay[1024];
        
         int res = recV(client, hay, 1024);
-        if (serverstart == true) {
-            closesocket(client);
-            serverstart = false;
-            std::cout << "STOP SERVER\n";
+        if (!serverpr) {
+            std::cout << "STOP GET PACKET\n";
             break;
         }
-        if (res < 0)
+        if (res <= 0)
         {
+            
             std::cout << "DISSCONNECT\n";
             close(client);
-            client = accept(servsock, (struct sockaddr*)&addr, &opt);
-            std::cout << "CONNECT CLIENT\n";
-            senD(client, "TEST\n", 6);
+            if (client = accept(servsock, (struct sockaddr*)&addr, &opt)) {
+                std::cout << "CONNECT CLIENT\n";
+                sendMessage("YOU CONNECT SERVER");
+            }
             continue;
         }else
             std::cout << "RECV: " << hay << "\n";
@@ -71,7 +71,7 @@ void BlServer::GetPacket() {
 }
 void BlServer::ServerStart()
 {
-    serverstart = false;
+   
     std::cout << "SERVER STARTT\n";
     if (0 != bind(servsock, (struct sockaddr*)&addr, sizeof(addr)))
     {
@@ -122,12 +122,18 @@ void BlServer::ServerStart()
     }
     printf("\nBefore accept.........\n");
 
-
+    serverpr = true;
    
     std::thread th(&BlServer::GetPacket,this);
     th.detach();
     
 }
 void BlServer::ServerStop() {
-    this->serverstart = true;
+    if (serverpr) {
+        
+        closesocket(client);
+        closesocket(servsock);
+        serverpr = false;
+    }
+   
 }

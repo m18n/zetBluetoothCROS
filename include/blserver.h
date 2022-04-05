@@ -38,5 +38,5 @@ private:
     socklen_t opt = sizeof(addr);
     SOCKET servsock;
     SOCKET client;
-    bool serverstart = false;
+    bool serverpr = false;
 };
