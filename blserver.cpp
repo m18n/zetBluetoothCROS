@@ -75,7 +75,7 @@ void BlServer::ServerStart()
     std::cout << "SERVER STARTT\n";
     if (0 != bind(servsock, (struct sockaddr*)&addr, sizeof(addr)))
     {
-        printf("%s\n", GetLastError());
+       std::cout<<GetLastError()<<"\n";
     }
     else
     {
