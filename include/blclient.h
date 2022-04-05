@@ -73,7 +73,7 @@ public:
             if (!conn) {
                 break;
             }
-            if (res < 0)
+            if (res <= 0)
             {
                 std::cout << "DISSCONNECT\n";
                 conn = false;
