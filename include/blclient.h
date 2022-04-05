@@ -56,8 +56,9 @@ public:
             return;
         }
         std::cout << "CONNECT SUCCSESFUL\n";
-        
-    }
+        std::thread th(&BlClient::GetPacket, this);
+        th.detach();
+    } 
     void GetPacket() {
         
         while (true)

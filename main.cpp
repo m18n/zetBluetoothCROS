@@ -193,7 +193,7 @@ public:
         Bobj b(mac, "PHONE");
         //Bobj b(GE, "TELE");
         blcl.Connect(b,port);
-        blcl.GetPacket();
+       
     }
     void StartServer() {
         blserv.ServerInit();

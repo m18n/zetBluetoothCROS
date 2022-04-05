@@ -16,6 +16,7 @@
 #include<fstream>
 #include<string>
 #include<string.h>
+#include<thread>
 namespace core {
 	int GetRealSize(std::vector<char> v);
 }
