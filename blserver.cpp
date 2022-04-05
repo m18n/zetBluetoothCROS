@@ -31,20 +31,31 @@ void BlServer::ServerInit()
 
 
 }
+void BlServer::sendMessage(std::string mess) {
+    senD(client, mess.c_str(), mess.length() + 1);
+}
 void BlServer::GetPacket() {
 
-    SOCKET client = accept(servsock, (struct sockaddr*)&addr, &opt);
+    client = accept(servsock, (struct sockaddr*)&addr, &opt);
     std::cout << "CONNECT CLIENT\n";
-    for (int i = 0; i < 20; i++) {
-        senD(client,"TEST\n",6);
-        
-    }
     while (true)
     {
-
+        if (serverstart == true) {
+            closesocket(client);
+            serverstart = false;
+            std::cout << "STOP SERVER\n";
+            break;
+        }
+        senD(client, "START SERVER", 13);
         char hay[1024];
        
         int res = recV(client, hay, 1024);
+        if (serverstart == true) {
+            closesocket(client);
+            serverstart = false;
+            std::cout << "STOP SERVER\n";
+            break;
+        }
         if (res < 0)
         {
             std::cout << "DISSCONNECT\n";
@@ -53,13 +64,14 @@ void BlServer::GetPacket() {
             std::cout << "CONNECT CLIENT\n";
             senD(client, "TEST\n", 6);
             continue;
-        }
-        std::cout << "RECV: " << hay << "\n";
+        }else
+            std::cout << "RECV: " << hay << "\n";
 
     }
 }
 void BlServer::ServerStart()
 {
+    serverstart = false;
     std::cout << "SERVER STARTT\n";
     if (0 != bind(servsock, (struct sockaddr*)&addr, sizeof(addr)))
     {
@@ -115,4 +127,7 @@ void BlServer::ServerStart()
     std::thread th(&BlServer::GetPacket,this);
     th.detach();
     
+}
+void BlServer::ServerStop() {
+    this->serverstart = true;
 }

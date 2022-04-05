@@ -75,6 +75,7 @@ public:
 
         }
     }
+    void sendMessage(std::string mess);
 private:
     sockaddre addr= { 0 };
     int clsock;

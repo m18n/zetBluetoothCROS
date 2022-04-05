@@ -17,15 +17,22 @@ JSValueRef ServerStartJs(JSContextRef ctx, JSObjectRef function,
 JSValueRef ServerStopJs(JSContextRef ctx, JSObjectRef function,
     JSObjectRef thisObject, size_t argumentCount,
     const JSValueRef arguments[], JSValueRef* exception);
+JSValueRef ServerSendMessageJs(JSContextRef ctx, JSObjectRef function,
+    JSObjectRef thisObject, size_t argumentCount,
+    const JSValueRef arguments[], JSValueRef* exception);
+JSValueRef ClientSendMessageJs(JSContextRef ctx, JSObjectRef function,
+    JSObjectRef thisObject, size_t argumentCount,
+    const JSValueRef arguments[], JSValueRef* exception);
 class MyApp : public WindowListener,
     public ViewListener, public LoadListener {
     RefPtr<App> app_;
     RefPtr<Window> window_;
     RefPtr<Overlay> ov;
-    BlClient blcl;
-    BlServer blserv;
+    
     JSContextRef ctx;
 public:
+    BlClient blcl;
+    BlServer blserv;
     MyApp() {
       
         app_ = App::Create();
@@ -59,6 +66,8 @@ public:
         RegistrFunctionJs("ConnectCpp", ConnectJs);
         RegistrFunctionJs("ServerStartCpp", ServerStartJs);
         RegistrFunctionJs("ServerStopCpp", ServerStopJs);
+        RegistrFunctionJs("ServSendMessageCpp", ServerSendMessageJs);
+        RegistrFunctionJs("ClientSendMessageCpp", ClientSendMessageJs);
         // Create a JavaScript String containing the name of our callback.
     }
     void RegistrFunctionJs(std::string namefunction, JSObjectCallAsFunctionCallback fun)
@@ -190,6 +199,10 @@ public:
         blserv.ServerInit();
         blserv.ServerStart();
     }
+    void StopServer() {
+        blserv.ServerStop();
+    }
+    
     virtual ~MyApp() {}
     virtual void OnClose() override {}
     virtual void OnResize(uint32_t width, uint32_t height) override {
@@ -237,7 +250,30 @@ JSValueRef ServerStartJs(JSContextRef ctx, JSObjectRef function,
 JSValueRef ServerStopJs(JSContextRef ctx, JSObjectRef function,
     JSObjectRef thisObject, size_t argumentCount,
     const JSValueRef arguments[], JSValueRef* exception) {
+    app.StopServer();
     return JSValueMakeNull(ctx);
+}
+JSValueRef ServerSendMessageJs(JSContextRef ctx, JSObjectRef function,
+    JSObjectRef thisObject, size_t argumentCount,
+    const JSValueRef arguments[], JSValueRef* exception) {
+    JSString js = JSValueCreateJSONString(ctx, arguments[0], NULL, exception);
+    String mac = (String)js;
+    String8 mac_utf8 = mac.utf8();
+    std::string mess = app.GetString(mac_utf8.data());
+    app.blserv.sendMessage(mess);
+    return JSValueMakeNull(ctx);
+
+}
+JSValueRef ClientSendMessageJs(JSContextRef ctx, JSObjectRef function,
+    JSObjectRef thisObject, size_t argumentCount,
+    const JSValueRef arguments[], JSValueRef* exception) {
+    JSString js = JSValueCreateJSONString(ctx, arguments[0], NULL, exception);
+    String mac = (String)js;
+    String8 mac_utf8 = mac.utf8();
+    std::string mess = app.GetString(mac_utf8.data());
+    app.blcl.sendMessage(mess);
+    return JSValueMakeNull(ctx);
+
 }
 int main(int argc, char **argv)
 {

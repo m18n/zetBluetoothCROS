@@ -31,9 +31,12 @@ public:
     
    
     void ServerStart();
-   
+    void ServerStop();
+    void sendMessage(std::string mess);
 private:
     sockaddre addr = {0};
     socklen_t opt = sizeof(addr);
     SOCKET servsock;
+    SOCKET client;
+    bool serverstart = false;
 };

@@ -9,3 +9,11 @@ function ServStart(){
 function ServStop(){
     ServerStopCpp();
 }
+function ServSendMessage(){
+    let message=document.getElementById("messageserv").value;
+    ServSendMessageCpp(message);
+}
+function ClientSendMessage(){
+    let message=document.getElementById("messageclient").value;
+    ClientSendMessageCpp(message);
+}
