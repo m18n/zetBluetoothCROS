@@ -4,6 +4,8 @@ function Connect(){
     ConnectCpp(mac,port);
 }
 function ServStart(){
-    let port=parseInt(document.getElementById("portserv").value);
-    ServerStartCpp(port);
+    ServerStartCpp();
+}
+function ServStop(){
+    ServerStopCpp();
 }

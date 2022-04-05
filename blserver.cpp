@@ -2,10 +2,10 @@
 
 void StartServer(void* blserver,uint8_t channel) {
 	BlServer* bl = (BlServer*)blserver;
-	bl->ServerInit(channel);
+	bl->ServerInit();
 	bl->ServerStart();
 }
-void BlServer::ServerInit(uint8_t channel)
+void BlServer::ServerInit()
 {
     std::cout << "Server Init\n";
     servsock = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);

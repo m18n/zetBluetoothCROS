@@ -14,6 +14,9 @@ JSValueRef ConnectJs(JSContextRef ctx, JSObjectRef function,
 JSValueRef ServerStartJs(JSContextRef ctx, JSObjectRef function,
     JSObjectRef thisObject, size_t argumentCount,
     const JSValueRef arguments[], JSValueRef* exception);
+JSValueRef ServerStopJs(JSContextRef ctx, JSObjectRef function,
+    JSObjectRef thisObject, size_t argumentCount,
+    const JSValueRef arguments[], JSValueRef* exception);
 class MyApp : public WindowListener,
     public ViewListener, public LoadListener {
     RefPtr<App> app_;
@@ -55,6 +58,7 @@ public:
         ctx = context.get();
         RegistrFunctionJs("ConnectCpp", ConnectJs);
         RegistrFunctionJs("ServerStartCpp", ServerStartJs);
+        RegistrFunctionJs("ServerStopCpp", ServerStopJs);
         // Create a JavaScript String containing the name of our callback.
     }
     void RegistrFunctionJs(std::string namefunction, JSObjectCallAsFunctionCallback fun)
@@ -182,8 +186,8 @@ public:
         blcl.Connect(b,port);
         blcl.GetPacket();
     }
-    void StartServer(int channel) {
-        blserv.ServerInit(channel);
+    void StartServer() {
+        blserv.ServerInit();
         blserv.ServerStart();
     }
     virtual ~MyApp() {}
@@ -227,9 +231,12 @@ JSValueRef ConnectJs(JSContextRef ctx, JSObjectRef function,
 JSValueRef ServerStartJs(JSContextRef ctx, JSObjectRef function,
     JSObjectRef thisObject, size_t argumentCount,
     const JSValueRef arguments[], JSValueRef* exception) {
-    double port = JSValueToNumber(ctx, arguments[0], exception);
-    std::cout << "GET VAR\t PORT: " << port << "\n";
-    app.StartServer(port);
+    app.StartServer();
+    return JSValueMakeNull(ctx);
+}
+JSValueRef ServerStopJs(JSContextRef ctx, JSObjectRef function,
+    JSObjectRef thisObject, size_t argumentCount,
+    const JSValueRef arguments[], JSValueRef* exception) {
     return JSValueMakeNull(ctx);
 }
 int main(int argc, char **argv)

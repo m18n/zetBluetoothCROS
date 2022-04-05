@@ -27,7 +27,7 @@ public:
 private:
     void GetPacket();
 public:
-    void ServerInit(uint8_t channel);
+    void ServerInit();
     
    
     void ServerStart();
