@@ -6,6 +6,8 @@ function Connect(){
     ConnectCpp(mac,port);
 }
 function Disconnect(){
+    let h=document.getElementById("clienth");
+    h.style.color='black';
     DisconnectCpp();
 }
 function ServStart(){
