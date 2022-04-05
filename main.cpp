@@ -13,7 +13,7 @@ int main(int argc, char **argv)
 
     
     auto window = Window::Create(app->main_monitor(), WINDOW_WIDTH, WINDOW_HEIGHT, false,
-        kWindowFlags_Titled);    
+        kWindowFlags_Titled | kWindowFlags_Resizable);
     app->set_window(window);
     VServClient vs;
     vs.SetWin(window);
