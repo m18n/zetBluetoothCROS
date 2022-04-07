@@ -32,7 +32,7 @@ void BlServer::ServerInit()
 
 }
 void BlServer::sendMessage(std::string mess) {
-    senD0(client, mess.c_str(), mess.length() + 1);
+    senD0(client, mess.c_str(), mess.length()+1);
 }
 void BlServer::GetPacket() {
     std::cout << "START GET PAKCET\n";
@@ -46,7 +46,7 @@ void BlServer::GetPacket() {
             std::cout << "STOP GET PACKET\n";
             break;
         }
-        sendMessage("YOU CONNECT SERVER");
+        sendMessage("SERVER CONN");
         char hay[1024];
        
         int res = recV0(client, hay, 1024);
@@ -61,7 +61,7 @@ void BlServer::GetPacket() {
             close(client);
             if (client = accept(servsock, (struct sockaddr*)&addr, &opt)) {
                 std::cout << "CONNECT CLIENT\n";
-                sendMessage("YOU CONNECT SERVER");
+                sendMessage("SERVER CONN");
             }
             continue;
         }else
