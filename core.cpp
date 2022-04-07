@@ -57,9 +57,10 @@ int recV0(int sock, char* buf, int size) {
     for (int i = 0; i < ret; i++) {
         if (buf[i] == '\0') {
             index = i;
+            break;
         }
     }
-    ret = recv(sock, buf, index, NULL);
+    ret = recv(sock, buf, index+1, NULL);
     return ret;
 }
 int senD(int sock, const char* buf, int size) {
