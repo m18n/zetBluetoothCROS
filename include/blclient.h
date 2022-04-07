@@ -69,7 +69,7 @@ public:
             if (!conn) {
                 break;
             }
-            int res = recV(clsock, hay, 1024);
+            int res = recV0(clsock, hay, 1024);
             if (!conn) {
                 break;
             }

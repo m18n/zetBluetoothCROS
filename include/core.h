@@ -61,3 +61,5 @@ int str2ba(char* str_bt_addr, BTH_ADDR* bt_addr);//for converting string to blue
 #endif // __linux__
 int recV(int sock, char* buf, int size);
 int senD(int sock, const char* buf, int size);
+int recV0(int sock, char* buf, int size);
+int senD0(int sock, const char* buf, int size);

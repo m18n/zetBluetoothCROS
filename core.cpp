@@ -51,6 +51,17 @@ int recV(int sock, char* buf, int size) {
     ret = recv(sock, buf, realsize, NULL);
     return ret;
 }
+int recV0(int sock, char* buf, int size) {
+    int ret = recv(sock, buf, size, MSG_PEEK);
+    int index = 0;
+    for (int i = 0; i < ret; i++) {
+        if (buf[i] == '\0') {
+            index = i;
+        }
+    }
+    ret = recv(sock, buf, index, NULL);
+    return ret;
+}
 int senD(int sock, const char* buf, int size) {
     static std::vector<char> vec(500);
     std::string sizestr = std::to_string(size);
@@ -61,5 +72,8 @@ int senD(int sock, const char* buf, int size) {
     int allsize = indexs + size + 2;
     vec[allsize - 1] = '\0';
     return send(sock, &vec[0], allsize-1, NULL);
+}
+int senD0(int sock, const char* buf, int size) {
+    return send(sock, buf, size,NULL);
 }
 #endif // __linux__
