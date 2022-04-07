@@ -32,6 +32,7 @@ void BlServer::ServerInit()
 
 }
 void BlServer::sendMessage(std::string mess) {
+    std::cout << "SERVER SEND MESSAGE: " << mess << "\n";
     senD0(client, mess.c_str(), mess.length()+1);
 }
 void BlServer::GetPacket() {
@@ -40,13 +41,14 @@ void BlServer::GetPacket() {
 
         std::cout << "CONNECT CLIENT\n";
     }
+    sendMessage("SERVER CONN");
     while (true)
     {
         if (!serverpr) {
             std::cout << "STOP GET PACKET\n";
             break;
         }
-        sendMessage("SERVER CONN");
+        
         char hay[1024];
        
         int res = recV0(client, hay, 1024);

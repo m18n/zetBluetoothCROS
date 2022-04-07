@@ -7,6 +7,7 @@ void Connect(void* blclient,char* mac,int port) {
 	bl->Connect(b,port);
 }
 void BlClient::sendMessage(std::string mess) {
+	std::cout << "CLIENT SEND MESSAGE: " << mess << "\n";
 	senD0(clsock, mess.c_str(), mess.length()+1);
 }
 void BlClient::Disconnect() {
